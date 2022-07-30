@@ -39,7 +39,7 @@ const game = useGameStore()
           <div class="flex flex-col p-3 space-y-3">
             <label for="codeInput" class="font-bold">Game Code</label>
             <div class="flex flex-col space-y-3 md:flex-row md:space-x-3 md:space-y-0">
-              <input v-model="codeInput" id="codeInput" type="text" class="w-full border p-1 rounded-md">
+              <input v-model="codeInput" id="codeInput" type="text" class="w-full border p-1.5 rounded shadow-sm" placeholder="Lobby Code">
               <button @click="$router.push({ name: 'Game', params: { identifier: codeInput }})" class="md:w-fit px-3 py-1.5 rounded bg-white border border-gray-300 text-gray-700 shadow-sm hover:bg-gray-50">Enter</button>
             </div>
           </div>

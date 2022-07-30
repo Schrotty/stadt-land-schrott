@@ -2,10 +2,12 @@
 import { Dialog, DialogPanel, DialogTitle, TransitionRoot } from "@headlessui/vue";
 import { Plus, X, ClipboardCopy } from 'lucide-vue-next';
 import {onMounted, ref} from "vue";
+import {useToast} from "vue-toastification";
 
 defineProps(['visible'])
 defineEmits(['update:visible'])
 
+const toaster = useToast()
 const lobbyName = ref("")
 const topic = ref("")
 const code = ref("")
@@ -22,7 +24,6 @@ function updateLobbyCode() {
     characters: getRandomCharacters()
   }
 
-  console.log(lobbyObject)
   code.value = btoa(JSON.stringify(lobbyObject))
 }
 
@@ -53,7 +54,12 @@ function removeTopic(topic: string) {
 }
 
 async function copyCode() {
-  await navigator.clipboard.writeText(code.value)
+  navigator.clipboard.writeText(code.value).then(() => {
+    toaster.success("Code copied to clipboard")
+  }).catch(() => {
+    toaster.error("Unable to copy code")
+  })
+
 }
 </script>
 
@@ -88,7 +94,7 @@ async function copyCode() {
             <!-- lobby name -->
             <div>
               <label for="name" class="font-bold">Name des Spiels</label>
-              <input id="name" type="text" class="w-full border p-1 rounded-md" v-model="lobbyName"
+              <input id="name" type="text" class="w-full border p-1.5 rounded shadow-sm" v-model="lobbyName"
                      placeholder="Schrottplatz" @change.prevent="updateLobbyCode" @keyup.enter="updateLobbyCode">
             </div>
 
@@ -96,15 +102,15 @@ async function copyCode() {
             <div>
               <label for="topics" class="font-bold">Themen</label>
               <div class="flex flex-row">
-                <input id="topics" type="text" class="w-full border border-r-0 p-1 rounded-md rounded-r-none" v-model="topic" placeholder="Stadt">
-                <button @click.prevent="addTopic" class="border p-1 rounded-md rounded-l-none hover:bg-gray-50">
+                <input id="topics" type="text" class="w-full border border-r-0 p-1.5 rounded rounded-r-none shadow-sm" v-model="topic" placeholder="Stadt">
+                <button @click.prevent="addTopic" class="border p-1 rounded rounded-l-none hover:bg-gray-50 shadow-sm">
                   <plus />
                 </button>
               </div>
 
               <div class="flex flex-row space-x-1.5 justify-start mt-1.5">
                 <template v-for="topic in topics">
-                  <div v-if="topic !== ''" class="flex flex-row justify-between rounded-lg bg-fuchsia-100 px-3 text-sm space-x-1 items-center">
+                  <div v-if="topic !== ''" class="flex flex-row justify-between rounded-lg bg-fuchsia-100 px-3 shadow-sm text-sm space-x-1 items-center">
                     <span class="font-bold text-fuchsia-800 pointer-events-none">{{ topic }}</span>
                     <button @click.prevent="removeTopic(topic)" class="bg-transparent">
                       <x :size="12" class="text-fuchsia-900" />
@@ -115,8 +121,8 @@ async function copyCode() {
             </div>
           </div>
 
-          <div class="flex flex-col md:flex-row w-full bg-gray-50 justify-end p-3 space-y-3 md:space-x-3 md:space-y-0">
-            <input v-model="code" type="text" class="md:w-full bg-white border border-gray-300 text-gray-700 shadow-sm px-3 py-1.5" placeholder="Lobby Code">
+          <div class="flex flex-col md:flex-row w-full justify-end p-3 space-y-3 md:space-x-3 md:space-y-0">
+            <input v-model="code" type="text" class="md:w-full bg-white rounded border border-gray-300 text-gray-700 shadow-sm p-1.5" placeholder="Lobby Code">
 
             <button class="md:w-fit px-3 py-1.5 rounded bg-white border border-gray-300 text-gray-700 shadow-sm hover:bg-gray-50"
                     @click.prevent="copyCode">

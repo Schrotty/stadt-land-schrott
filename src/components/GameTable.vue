@@ -64,22 +64,22 @@ function submitEntry() {
         </thead>
         <tbody>
         <template v-for="entry in validEntries" :key="entry.character">
-          <tr v-if="!entry.submit">
-            <td class="text-center border-b p-3">{{ entry.character }}</td>
-            <td v-for="topic in game.topics" class="px-1.5 py-3 text-center border-b">
-              <input v-model="entry.guesses[topic]" type="text" class="w-full p-3 border text-center" :placeholder="topic">
+          <tr v-if="!entry.submit" class="border-b last:border-b-0">
+            <td class="text-center p-3 pointer-events-none font-bold">{{ entry.character }}</td>
+            <td v-for="topic in game.topics" class="px-1.5 py-3 text-center">
+              <input v-model="entry.guesses[topic]" type="text" class="w-full p-3 border shadow-sm rounded text-center" :placeholder="topic">
             </td>
 
-            <td class="text-center border-b">
+            <td class="text-center">
               <button @click="submitEntry" class="px-1.5 py-3 w-full text-center bg-transparent">
                 <send class="inline" />
               </button>
             </td>
           </tr>
 
-          <tr class="border-b last:border-0" v-else>
-            <td class="text-center border-b">{{ entry.character }}</td>
-            <td v-for="topic in game.topics" class="px-1.5 py-3 text-center">{{ entry.guesses[topic] }}</td>
+          <tr class="border-b last:border-b-0" v-else>
+            <td class="text-center p-3 pointer-events-none font-bold">{{ entry.character }}</td>
+            <td v-for="topic in game.topics" class="px-1.5 py-3 text-center">{{ entry.guesses[topic] || '/' }}</td>
             <td class="text-center">
               <check class="inline" />
             </td>
