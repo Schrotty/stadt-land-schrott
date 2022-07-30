@@ -23,9 +23,8 @@ jobs:
     - run: npm run build
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3.1.0
+      uses: actions/upload-pages-artifact@main
       with:
-        name: github-pages
         path: ${{ github.workspace }}/dist/**/*
 
   deploy:
