@@ -3,6 +3,7 @@ import { Send, Check, X } from "lucide-vue-next";
 import {useGameStore} from "../stores/gameStore";
 import {useRoute} from "vue-router";
 import {computed, onMounted, ref} from "vue";
+import {$ref} from "vue/macros";
 
 const abc = "abcdefghijklmnopqrstuvwxyz"
 
