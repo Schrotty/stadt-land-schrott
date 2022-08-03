@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { Send, Check, X } from "lucide-vue-next";
+import { Send, Check, Unlock } from "lucide-vue-next";
 import {useGameStore} from "../stores/gameStore";
 import {useRoute} from "vue-router";
 import {computed, onMounted, ref} from "vue";
-import {$ref} from "vue/macros";
 
 const abc = "abcdefghijklmnopqrstuvwxyz"
 
@@ -16,7 +15,8 @@ const gameEntries = ref([{
   character: '',
   guesses: [],
   disabled: true,
-  submit: true
+  submit: true,
+  hidden: false
 }])
 
 const validEntries = computed(() => gameEntries.value.filter(x => !x.disabled))
@@ -32,7 +32,8 @@ function createEntry() {
     character: abc.charAt(game.characters[round.value]).toUpperCase(),
     guesses: [],
     disabled: false,
-    submit: false
+    submit: false,
+    hidden: true
   })
 
   round.value++
@@ -48,6 +49,13 @@ function submitEntry() {
     createEntry()
   }
 }
+
+function unlockEntry() {
+  const entry = gameEntries.value.find(e => e.hidden)
+  if (typeof entry !== "undefined") {
+    entry.hidden = false
+  }
+}
 </script>
 
 <template>
@@ -56,34 +64,42 @@ function submitEntry() {
 
     <!-- table version -->
     <div class="hidden w-full bg-white rounded-md border border-2 md:block">
-      <table class="w-full text-center">
+      <table class="w-full text-center table-auto">
         <thead>
         <tr>
-          <th class="border-b border-slate-600 w-fit p-3"></th>
+          <th class="border-b border-slate-600 w-16 p-3"></th>
           <th v-for="topic in game.topics" class="border-b border-slate-600 p-1.5">{{ topic }}</th>
-          <th class="border-b border-slate-600 p-1.5 w-32">{{ $t('game.submit') }}</th>
+          <th class="border-b border-slate-600 p-1.5 pr-3 w-16">{{ $t('game.submit') }}</th>
         </tr>
         </thead>
         <tbody>
         <template v-for="entry in validEntries" :key="entry.character">
-          <tr v-if="!entry.submit" class="border-b last:border-b-0">
-            <td class="text-center p-3 pointer-events-none font-bold w-fit">{{ entry.character }}</td>
-            <td v-for="topic in game.topics" class="px-1.5 py-3 text-center">
-              <input v-model="entry.guesses[topic]" type="text" class="w-full p-3 border shadow-sm rounded text-center" :placeholder="topic">
-            </td>
+          <tr v-if="!entry.submit && !entry.hidden" class="border-b last:border-b-0">
+              <td class="text-center p-3 pointer-events-none font-bold w-fit">{{ entry.character }}</td>
+              <td v-for="topic in game.topics" class="px-1.5 py-3 text-center">
+                <input v-model="entry.guesses[topic]" type="text" class="w-full p-3 border shadow-sm rounded text-center" :placeholder="topic">
+              </td>
 
-            <td class="text-center">
-              <button @click="submitEntry" class="px-1.5 py-3 w-full text-center bg-transparent">
-                <send class="inline" />
-              </button>
-            </td>
+              <td class="text-center">
+                <button @click="submitEntry" class="px-1.5 py-3 w-full text-center bg-transparent">
+                  <send class="inline" />
+                </button>
+              </td>
           </tr>
 
-          <tr class="border-b last:border-b-0" v-else>
+          <tr class="border-b last:border-b-0" v-else-if="entry.submit">
             <td class="text-center p-3 pointer-events-none font-bold w-fit">{{ entry.character }}</td>
             <td v-for="topic in game.topics" class="px-1.5 py-3 text-center">{{ entry.guesses[topic] || '/' }}</td>
             <td class="text-center">
               <check class="inline" />
+            </td>
+          </tr>
+
+          <tr class="border-b last:border-b-0" v-else-if="entry.hidden">
+            <td :colspan="game.topics.length + 2" class="p-3">
+              <button @click="unlockEntry" class="px-1.5 py-3 w-full text-center bg-transparent hover:bg-gray-50">
+                <unlock class="inline" />
+              </button>
             </td>
           </tr>
         </template>
@@ -97,7 +113,7 @@ function submitEntry() {
         <div class="flex flex-col border border-2 bg-white rounded shadow-sm">
 
           <!-- title bar -->
-          <div class="flex flex-row w-full justify-between border-b p-3">
+          <div v-if="(!entry.submit && !entry.hidden) || entry.submit" class="flex flex-row w-full justify-between border-b p-3">
             <div class="text-2xl font-bold">{{ entry.character }}</div>
             <button v-if="!entry.submit" class="bg-transparent" @click="submitEntry">
               <Send :size="24" />
@@ -108,14 +124,20 @@ function submitEntry() {
             </button>
           </div>
 
+          <div v-if="entry.hidden">
+            <button @click="unlockEntry" class="px-1.5 py-3 w-full text-center bg-transparent hover:bg-gray-50">
+              <unlock class="inline" />
+            </button>
+          </div>
+
           <!-- guesses -->
           <template v-for="topic in game.topics">
-            <div v-if="!entry.submit" class="flex flex-col p-3">
+            <div v-if="!entry.submit && !entry.hidden" class="flex flex-col p-3">
               <label :for="topic+entry.character" class="font-bold">{{ topic }}</label>
               <input :id="topic+entry.character" v-model="entry.guesses[topic]" type="text" class="w-full p-3 border shadow-sm rounded text-center" :placeholder="topic">
             </div>
 
-            <div v-else class="flex flex-row py-1.5 px-3 justify-between">
+            <div v-else-if="entry.submit" class="flex flex-row py-1.5 px-3 justify-between">
               <label :for="topic+entry.character" class="font-bold">{{ topic }}</label>
               <span>{{ entry.guesses[topic] || '/' }}</span>
             </div>
