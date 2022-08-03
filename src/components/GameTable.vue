@@ -10,6 +10,7 @@ const game = useGameStore()
 const route = useRoute()
 
 const round = ref(0)
+const pwd = ref("")
 const gameEntries = ref([{
   character: 'a',
   guesses: [],
@@ -21,8 +22,7 @@ const validEntries = computed(() => gameEntries.value.filter(x => !x.disabled))
 const code: string = route.params.identifier.toString()
 
 onMounted(() => {
-  game.decode(code)
-
+  game.decode(code, pwd.value)
   createEntry()
 })
 
@@ -59,7 +59,7 @@ function submitEntry() {
         <tr>
           <th class="border-b border-slate-600 w-fit p-3"></th>
           <th v-for="topic in game.topics" class="border-b border-slate-600 p-1.5">{{ topic }}</th>
-          <th class="border-b border-slate-600 p-1.5 w-32">Submit</th>
+          <th class="border-b border-slate-600 p-1.5 w-32">{{ $t('game.submit') }}</th>
         </tr>
         </thead>
         <tbody>

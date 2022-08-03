@@ -1,0 +1,29 @@
+{
+  "game": {
+    "join": "Spiel beitreten",
+    "create": "Spiel anlegen",
+    "submit": "Abschicken",
+    "label": {
+      "name": "Spielname",
+      "topics": "Themen"
+    },
+    "placeholder": {
+      "name": "Schrottplatz",
+      "topics": "Stadt",
+      "code": "Lobby Code"
+    },
+    "short": {
+      "join": "Beitreten"
+    }
+  },
+  "settings-title": "Einstellungen",
+  "password": {
+    "title": "Password",
+    "enter-password": "This game is password protected"
+  },
+  "language": {
+    "title": "Sprache",
+    "en": "Englisch",
+    "de": "Deutsch"
+  }
+}

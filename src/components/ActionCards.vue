@@ -12,12 +12,12 @@ const joinDialogIsOpen = ref(false)
 
     <!-- create a new lobby -->
     <a href="#" @click="createDialogIsOpen = true" class="md:w-72 text-center bg-white border border-2 shadow-md rounded p-8 cursor-pointer hover:text-black hover:bg-fuchsia-50">
-      <h2 class="text-2xl">Create Game</h2>
+      <h2 class="text-2xl">{{ $t('game.create') }}</h2>
     </a>
 
     <!-- join a existing lobby -->
     <a href="#" @click="joinDialogIsOpen = true" class="md:w-72 text-center bg-white border border-2 shadow-md rounded p-8 cursor-pointer hover:text-black hover:bg-fuchsia-50">
-      <h2 class="text-2xl">Join Game</h2>
+      <h2 class="text-2xl">{{ $t('game.join') }}</h2>
     </a>
   </div>
 

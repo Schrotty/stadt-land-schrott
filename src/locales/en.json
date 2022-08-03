@@ -1,0 +1,29 @@
+{
+  "game": {
+    "join": "Join Game",
+    "create": "Create Game",
+    "submit": "Submit",
+    "label": {
+      "name": "Name of the game",
+      "topics": "Topics"
+    },
+    "placeholder": {
+      "name": "Schrottplatz",
+      "topics": "City",
+      "code": "Lobby Code"
+    },
+    "short": {
+      "join": "Join"
+    }
+  },
+  "settings-title": "Settings",
+  "password": {
+    "title": "Password",
+    "enter-password": "This game is password protected"
+  },
+  "language": {
+    "title": "Language",
+    "en": "English",
+    "de": "German"
+  }
+}

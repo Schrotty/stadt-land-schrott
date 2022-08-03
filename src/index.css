@@ -9,6 +9,14 @@ html {
     font-weight: 400;
 }
 
+input, button, select {
+    @apply border-gray-200 !important;
+}
+
+input:focus {
+    @apply bg-gray-50;
+}
+
 :root {
     color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);
