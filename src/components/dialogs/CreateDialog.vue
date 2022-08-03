@@ -43,7 +43,6 @@ function getRandomCharacters() {
     chars.push(x)
   }
 
-  console.log(chars)
   return chars
 }
 

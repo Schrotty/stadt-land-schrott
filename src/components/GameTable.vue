@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Send, Check } from "lucide-vue-next";
+import { Send, Check, X } from "lucide-vue-next";
 import {useGameStore} from "../stores/gameStore";
 import {useRoute} from "vue-router";
 import {computed, onMounted, ref} from "vue";
@@ -27,8 +27,6 @@ onMounted(() => {
 })
 
 function createEntry() {
-  console.log(abc.charAt(game.characters[round.value]).toUpperCase(), game.characters[round.value], round.value)
-
   gameEntries.value.push({
     character: abc.charAt(game.characters[round.value]).toUpperCase(),
     guesses: [],
@@ -55,7 +53,8 @@ function submitEntry() {
   <div class="flex flex-col p-3 space-y-3">
     <h2 class="text-2xl">{{ game.name }}</h2>
 
-    <div class="w-full bg-white rounded-md border border-2">
+    <!-- table version -->
+    <div class="hidden w-full bg-white rounded-md border border-2 md:block">
       <table class="w-full text-center">
         <thead>
         <tr>
@@ -89,6 +88,39 @@ function submitEntry() {
         </template>
         </tbody>
       </table>
+    </div>
+
+    <!-- flex box version -->
+    <div class="flex flex-col md:hidden space-y-3">
+      <template v-for="entry in validEntries" :key="entry.character">
+        <div class="flex flex-col border border-2 bg-white rounded shadow-sm">
+
+          <!-- title bar -->
+          <div class="flex flex-row w-full justify-between border-b p-3">
+            <div class="text-2xl font-bold">{{ entry.character }}</div>
+            <button v-if="!entry.submit" class="bg-transparent" @click="submitEntry">
+              <Send :size="24" />
+            </button>
+
+            <button v-else class="bg-transparent">
+              <Check :size="24" />
+            </button>
+          </div>
+
+          <!-- guesses -->
+          <template v-for="topic in game.topics">
+            <div v-if="!entry.submit" class="flex flex-col p-3">
+              <label :for="topic+entry.character" class="font-bold">{{ topic }}</label>
+              <input :id="topic+entry.character" v-model="entry.guesses[topic]" type="text" class="w-full p-3 border shadow-sm rounded text-center" :placeholder="topic">
+            </div>
+
+            <div v-else class="flex flex-row py-1.5 px-3 justify-between">
+              <label :for="topic+entry.character" class="font-bold">{{ topic }}</label>
+              <span>{{ entry.guesses[topic] || '/' }}</span>
+            </div>
+          </template>
+        </div>
+      </template>
     </div>
   </div>
 </template>
