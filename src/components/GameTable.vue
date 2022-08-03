@@ -12,7 +12,7 @@ const route = useRoute()
 const round = ref(0)
 const pwd = ref("")
 const gameEntries = ref([{
-  character: 'a',
+  character: '',
   guesses: [],
   disabled: true,
   submit: true
@@ -27,6 +27,8 @@ onMounted(() => {
 })
 
 function createEntry() {
+  console.log(abc.charAt(game.characters[round.value]).toUpperCase(), game.characters[round.value], round.value)
+
   gameEntries.value.push({
     character: abc.charAt(game.characters[round.value]).toUpperCase(),
     guesses: [],
@@ -65,7 +67,7 @@ function submitEntry() {
         <tbody>
         <template v-for="entry in validEntries" :key="entry.character">
           <tr v-if="!entry.submit" class="border-b last:border-b-0">
-            <td class="text-center p-3 pointer-events-none font-bold">{{ entry.character }}</td>
+            <td class="text-center p-3 pointer-events-none font-bold w-fit">{{ entry.character }}</td>
             <td v-for="topic in game.topics" class="px-1.5 py-3 text-center">
               <input v-model="entry.guesses[topic]" type="text" class="w-full p-3 border shadow-sm rounded text-center" :placeholder="topic">
             </td>
@@ -78,7 +80,7 @@ function submitEntry() {
           </tr>
 
           <tr class="border-b last:border-b-0" v-else>
-            <td class="text-center p-3 pointer-events-none font-bold">{{ entry.character }}</td>
+            <td class="text-center p-3 pointer-events-none font-bold w-fit">{{ entry.character }}</td>
             <td v-for="topic in game.topics" class="px-1.5 py-3 text-center">{{ entry.guesses[topic] || '/' }}</td>
             <td class="text-center">
               <check class="inline" />

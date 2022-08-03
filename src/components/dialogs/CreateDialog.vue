@@ -38,11 +38,12 @@ function getRandomCharacters() {
   let x: number;
   for (let i = 0; i < 26; i++) {
     do {
-      x = Math.floor(Math.random() * (26 - 1 + 1)) + 1
+      x = Math.floor(Math.random() * (25 - 1 + 1))
     } while (chars.find(s => s === x))
     chars.push(x)
   }
 
+  console.log(chars)
   return chars
 }
 
