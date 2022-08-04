@@ -4,6 +4,7 @@ import {onMounted, ref} from "vue";
 import {useToast} from "vue-toastification";
 import {cyrb53} from "../../crypto";
 import ScrapDialog from "../customs/ScrapDialog.vue";
+import Pusher from "pusher-js";
 
 defineProps(['visible'])
 defineEmits(['update:visible'])
@@ -24,6 +25,7 @@ function updateLobbyCode() {
     pwd: passwd.value !== "" ? cyrb53(passwd.value) : "",
     payload: {
       name: lobbyName.value,
+      lobby: crypto.randomUUID(),
       topics: topics.value.filter(t => t !== ''),
       characters: getRandomCharacters(),
     }

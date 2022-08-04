@@ -3,6 +3,10 @@
     "join": "Join Game",
     "create": "Create Game",
     "submit": "Submit",
+    "with": "with",
+    "result": {
+      "title": "Results"
+    },
     "label": {
       "name": "Name of the game",
       "topics": "Topics"
