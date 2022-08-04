@@ -45,7 +45,7 @@ onMounted(() => {
       game.results.set(payload.entry.character, [])
     }
 
-    game.results.get(payload.entry.character).push(payload.entry)
+    game.results.get(payload.entry.character)?.push(payload.entry)
   });
 
   // create first entry
