@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Search } from "lucide-vue-next";
 import ScrapDialog from "../customs/ScrapDialog.vue";
 import {useGameStore} from "../../stores/gameStore";
 
@@ -17,6 +18,11 @@ const game = useGameStore()
           <div v-for="entry in game.results.get(game.key)" class="flex flex-row justify-between">
             <span>{{ entry['sender'] }}</span>
             <span>{{ entry['guesses'][topic] }}</span>
+            <span>
+              <a :href="'https://www.google.com/search?q=' + entry['guesses'][topic]" target="_blank">
+                <Search />
+              </a>
+            </span>
           </div>
         </div>
       </template>
