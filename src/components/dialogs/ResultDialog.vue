@@ -19,7 +19,7 @@ const game = useGameStore()
             <span>{{ entry['sender'] }}</span>
             <span>{{ entry['guesses'][topic] }}</span>
             <span>
-              <a :href="'https://www.google.com/search?q=' + entry['guesses'][topic]" target="_blank">
+              <a :href="'https://www.google.com/search?q=' + topic + ' ' + entry['guesses'][topic]" target="_blank">
                 <Search />
               </a>
             </span>
