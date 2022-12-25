@@ -108,9 +108,9 @@ function unlockEntry() {
   <div class="flex flex-col p-3 space-y-3">
 
     <!-- game name -->
-    <div class="flex flex-row justify-between w-full">
-      <h3 class="text-xl">{{ username }}</h3>
-      <h2 class="text-2xl">{{ game.name }}</h2>
+    <div class="flex flex-col justify-between w-full bg-white rounded-md border-2 md:flex-row p-3">
+      <h3 class="text-xl text-center">{{ username }}</h3>
+      <h2 class="text-2xl text-center">{{ game.name }}</h2>
     </div>
 
     <!-- table version -->
