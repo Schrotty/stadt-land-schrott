@@ -172,8 +172,8 @@ function unlockEntry() {
               <Send :size="24" />
             </button>
 
-            <button v-else class="bg-transparent">
-              <Check :size="24" />
+            <button v-else class="bg-transparent" @click="openResultDialog(entry.character)">
+              <Users :size="24" />
             </button>
           </div>
 
